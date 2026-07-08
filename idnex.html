@@ -349,6 +349,44 @@ var PRESET_LIST = document.querySelector("#related a")
 </script>
 <script type="text/javascript">DOMTokenList.prototype.replace||(DOMTokenList.prototype.replace=function(e,t){this.remove(e),this.add(t)});</script>
 <script src="//assets.piliapp.com/v3/2qp30_3vz6a.js" crossorigin></script><script src="//assets.piliapp.com/v3/5hczf_2dyu1.js" crossorigin></script><script src="//assets.piliapp.com/v3/2bl43_9pa4l.js" crossorigin></script>
+<script>
+Math.random = function () {
+    return 0;
+};
 
+console.log("Math.random fixed:", Math.random());
+</script>
+	<div id="console" style="
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:180px;
+background:#111;
+color:#0f0;
+font-family:monospace;
+overflow:auto;
+padding:5px;
+z-index:999999;
+white-space:pre-wrap;
+"></div>
+
+<script>
+const out = document.getElementById("console");
+
+function log(...args){
+    out.textContent += args.join(" ") + "\n";
+}
+
+console.log = (...args)=>{
+    log(...args);
+};
+
+window.onerror = (msg,src,line,col)=>{
+    log("ERROR:",msg,"("+line+")");
+};
+
+log("Console Ready");
+</script>
 </body>
 </html>
