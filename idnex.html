@@ -356,37 +356,93 @@ Math.random = function () {
 
 console.log("Math.random fixed:", Math.random());
 </script>
-	<div id="console" style="
+<style>
+#devConsole{
 position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:180px;
+left:10px;
+right:10px;
+bottom:10px;
+height:250px;
 background:#111;
 color:#0f0;
+border:1px solid #555;
 font-family:monospace;
-overflow:auto;
-padding:5px;
-z-index:999999;
-white-space:pre-wrap;
-"></div>
-
-<script>
-const out = document.getElementById("console");
-
-function log(...args){
-    out.textContent += args.join(" ") + "\n";
+z-index:99999999;
+display:flex;
+flex-direction:column;
 }
 
-console.log = (...args)=>{
-    log(...args);
-};
+#devOutput{
+flex:1;
+overflow:auto;
+padding:5px;
+white-space:pre-wrap;
+}
 
-window.onerror = (msg,src,line,col)=>{
-    log("ERROR:",msg,"("+line+")");
-};
+#devInput{
+display:flex;
+border-top:1px solid #555;
+}
 
-log("Console Ready");
+#devCode{
+flex:1;
+background:#222;
+color:white;
+border:none;
+outline:none;
+padding:6px;
+font-family:monospace;
+}
+
+#runBtn{
+width:70px;
+background:#444;
+color:white;
+border:none;
+cursor:pointer;
+}
+</style>
+
+<div id="devConsole">
+<div id="devOutput"></div>
+
+<div id="devInput">
+<input id="devCode" placeholder="JavaScriptを書く">
+<button id="runBtn">実行</button>
+</div>
+</div>
+
+<script>
+const output=document.getElementById("devOutput");
+
+function print(...args){
+    output.textContent+=args.join(" ")+"\n";
+    output.scrollTop=output.scrollHeight;
+}
+
+const oldLog=console.log;
+console.log=function(...args){
+    oldLog(...args);
+    print(...args);
+}
+
+window.onerror=function(msg,src,line,col,error){
+    print("ERROR:",msg);
+}
+
+document.getElementById("runBtn").onclick=function(){
+    const code=document.getElementById("devCode").value;
+
+    try{
+        const result=eval(code);
+        print(">",code);
+        print(result);
+    }catch(e){
+        print("ERROR:",e);
+    }
+}
+
+print("Console Ready");
 </script>
 </body>
 </html>
